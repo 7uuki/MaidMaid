@@ -6,32 +6,37 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button_cancel"
-        android:layout_width="wrap_content"
+        android:id="@+id/button_save"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="8dp"
+        android:text="Save"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_save"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/button_cancel" />
 
 
     <Button
-        android:id="@+id/button_save"
-        android:layout_width="wrap_content"
+        style="?attr/materialButtonOutlinedStyle"
+        android:id="@+id/button_cancel"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
+        android:text="Cancel"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_cancel"
+        app:layout_constraintEnd_toStartOf="@+id/button_save"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:hint="@string/name_input"
         android:visibility="gone"
