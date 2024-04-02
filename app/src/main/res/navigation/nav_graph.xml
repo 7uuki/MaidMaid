@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_SecondFragment_to_ThirdFragment"
+            app:destination="@+id/ThirdFragment" />
     </fragment>
 
     <fragment
@@ -33,7 +36,7 @@
         tools:layout="@layout/fragment_third" >
         <action
             android:id="@+id/action_ThirdFragment_to_SecondFragment"
-            app:destination="@id/ThirdFragment"/>
+            app:destination="@id/SecondFragment"/>
     </fragment>
 
 </navigation>
