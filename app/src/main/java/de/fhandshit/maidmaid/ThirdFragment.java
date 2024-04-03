@@ -2,31 +2,25 @@ package de.fhandshit.maidmaid;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
-import de.fhandshit.maidmaid.databinding.FragmentSecondBinding;
 import de.fhandshit.maidmaid.databinding.FragmentThirdBinding;
 
 public class ThirdFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
     TextInputEditText dateText;
+    TextInputLayout dateText_Layout;
 
     private FragmentThirdBinding binding;
 
@@ -47,6 +41,7 @@ public class ThirdFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         dateText = binding.datePicker;
+        dateText_Layout = binding.datePickerField;
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -54,6 +49,7 @@ public class ThirdFragment extends Fragment {
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, day);
 
+                dateText_Layout.setStartIconDrawable(R.drawable.ic_calendar);
                 dateText.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "." + myCalendar.get(Calendar.MONTH)+ "." + myCalendar.get(Calendar.YEAR));
             }
         };
