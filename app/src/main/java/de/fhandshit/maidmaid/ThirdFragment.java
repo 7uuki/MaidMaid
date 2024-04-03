@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -59,7 +60,26 @@ public class ThirdFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+/*
+        TextInputEditText productNameInput = view.findViewById(R.id.product_name_input);
+        TextInputEditText expiryDateInput = view.findViewById(R.id.date_picker);
+        binding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Retrieve the text entered by the user
+                String productName = productNameInput.getText().toString();
+                String expiryDate = expiryDateInput.getText().toString();
+
+                // Perform your database operations or save the data in variables as needed
+                // For example, you can pass this data to a method for saving to the database
+                saveDataToDatabase(productName, expiryDate);
+            }
+        });*/
     }
+
+    /*private void saveDataToDatabase(String productName, String expiryDate){
+        //Dummy
+    }*/
 
     @Override
     public void onDestroyView() {
