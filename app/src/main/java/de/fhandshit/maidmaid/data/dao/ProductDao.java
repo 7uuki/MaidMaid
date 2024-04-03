@@ -20,9 +20,9 @@ public interface ProductDao {
 
     @Insert
     void insertAll(Product... products);
-
+    @Query("")
     List<Product> getProductsOfCategory(Category category);
-
+    @Query("")
     List<Product> getAll();
 /*
     @Transaction
