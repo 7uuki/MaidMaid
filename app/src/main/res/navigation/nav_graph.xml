@@ -37,6 +37,10 @@
         <action
             android:id="@+id/action_ThirdFragment_to_SecondFragment"
             app:destination="@id/SecondFragment"/>
+
+        <argument
+            android:name="productId"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
