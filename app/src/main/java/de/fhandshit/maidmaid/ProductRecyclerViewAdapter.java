@@ -36,7 +36,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String productName = mData.get(position).getName();
+        String productName = mData.get(position).getProductName();
         holder.myTextView.setText(productName);
     }
 
@@ -65,7 +65,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
     // convenience method for getting data at click position
     String getItem(int id) {
-        return mData.get(id).getName();
+        return mData.get(id).getProductName();
     }
 
     // allows clicks events to be caught

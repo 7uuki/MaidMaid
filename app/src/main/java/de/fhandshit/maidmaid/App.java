@@ -12,7 +12,7 @@ public class App extends Application {
     private static AppDatabase database;
     private static Repo repo;
 
-    public Repo getRepo(){
+    public static Repo getRepo(){
         if(repo == null){
             repo = new DummyRepo();
             //uncomment later for database connection

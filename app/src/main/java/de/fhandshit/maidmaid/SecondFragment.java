@@ -105,10 +105,10 @@ public class SecondFragment extends Fragment {
 
     public void sortRecyclerView(boolean leastRecent){
         if(leastRecent) {
-            productList.sort(Comparator.comparing(Product::getTimestamp));
+            productList.sort(Comparator.comparing(Product::getLastAdd));
             ascendingSort = true;
         }else{
-            productList.sort(Comparator.comparing(Product::getTimestamp).reversed());
+            productList.sort(Comparator.comparing(Product::getLastAdd).reversed());
             ascendingSort = false;
         }
 

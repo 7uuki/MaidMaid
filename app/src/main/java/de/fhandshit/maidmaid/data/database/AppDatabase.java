@@ -12,7 +12,7 @@ import de.fhandshit.maidmaid.data.model.ProductItem;
 import de.fhandshit.maidmaid.data.dao.CategoryDao;
 import de.fhandshit.maidmaid.data.dao.ProductItemDao;
 
-@Database(entities = {Category.class, ProductItem.class, Product.class}, version = 1)
+//@Database(entities = {Category.class, ProductItem.class, Product.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
