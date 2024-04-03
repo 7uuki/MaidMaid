@@ -12,7 +12,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
+import de.fhandshit.maidmaid.data.database.AppDatabase;
 import de.fhandshit.maidmaid.databinding.ActivityMainBinding;
 
 import android.view.Menu;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

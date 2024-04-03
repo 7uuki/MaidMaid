@@ -1,15 +1,28 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "categories")
 public class Category {
-    private String name;
+    @PrimaryKey
+    @NonNull
+    private String categoryName;
+
     private int color; //argb
 
-    public String getName() {
-        return name;
+    public Category(@NonNull String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @NonNull
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(@NonNull String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public int getColor() {
