@@ -6,6 +6,7 @@ pluginManagement {
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
             }
+            val nav_version = "2.7.7"
         }
         mavenCentral()
         gradlePluginPortal()
