@@ -4,6 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import de.fhandshit.maidmaid.data.Converters;
 import de.fhandshit.maidmaid.data.dao.ProductDao;
 import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.data.model.Product;
