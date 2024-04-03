@@ -7,8 +7,15 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="name_input">Name</string>
+    <string name="category">category</string>
+    <string-array name="categories">
+        <item>Create new category</item>
+        <item>category 1</item>
+        <item>category 2</item>
+        <item>category 3</item>
+        <item>category 4</item>
+    </string-array>
     <string name="expiryDate">expiryDate</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="category" />
 </resources>

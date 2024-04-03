@@ -50,6 +50,7 @@ public class ThirdFragment extends Fragment {
             }
         });
 
+        binding = FragmentThirdBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -57,6 +58,10 @@ public class ThirdFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonCancel.setOnClickListener(v ->
+                NavHostFragment.findNavController(ThirdFragment.this)
+                        .navigate(R.id.action_ThirdFragment_to_SecondFragment)
+        );
     }
 
     private void updateLabel(){
