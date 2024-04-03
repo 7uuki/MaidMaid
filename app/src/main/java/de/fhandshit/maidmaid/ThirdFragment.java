@@ -2,6 +2,7 @@ package de.fhandshit.maidmaid;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +69,12 @@ public class ThirdFragment extends Fragment {
         categoryList = binding.autoCompleteTextView;
 
         if (getArguments().getBoolean("fromProduct")) {
-            int id = getArguments().getInt("id") ;
+            int id = getArguments().getInt("id");
             Product product = App.getRepo().getProductDao().getAll().get(id);
+            Log.d("TAG", product.getCategoryName());
+            Log.d("TAG", product.getCategory().getName());
+            Log.d("TAG", product.getProductName());
+            Log.d("TAG", String.valueOf(product.getId()));
             nameText.setText(product.getProductName());
             categoryList.setText(product.getCategoryName());
         }
