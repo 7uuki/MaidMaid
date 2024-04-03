@@ -39,7 +39,7 @@
             app:destination="@id/SecondFragment"/>
 
         <argument
-            android:name="productId"
+            android:name="id"
             app:argType="integer" />
     </fragment>
 
