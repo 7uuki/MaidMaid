@@ -139,6 +139,11 @@ public class DummyRepo extends Repo{
                 }
                 return out;
             }
+
+            @Override
+            public List<Product> getAll() {
+                return products;
+            }
         };
     }
     private ProductItemDao createProductItemDao(){
@@ -200,7 +205,6 @@ public class DummyRepo extends Repo{
             @Override
             public void insertAll(Category... inputcategories) {
                 getCategories().addAll(Arrays.asList(inputcategories));
-
             }
 
             @Override

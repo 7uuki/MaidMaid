@@ -22,6 +22,8 @@ public interface ProductDao {
     void insertAll(Product... products);
 
     List<Product> getProductsOfCategory(Category category);
+
+    List<Product> getAll();
 /*
     @Transaction
     @Query("SELECT * FROM product WHERE id = :id")
