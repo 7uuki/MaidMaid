@@ -2,6 +2,7 @@ package de.fhandshit.maidmaid;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,21 @@ public class ThirdFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentThirdBinding.inflate(inflater, container, false);
+
+
+        binding = FragmentThirdBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.buttonCancel.setOnClickListener(v ->
+                NavHostFragment.findNavController(ThirdFragment.this)
+                        .navigate(R.id.action_ThirdFragment_to_SecondFragment)
+        );
+
         dateText = binding.datePicker;
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -49,19 +65,6 @@ public class ThirdFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
-        binding = FragmentThirdBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-
-    }
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        binding.buttonCancel.setOnClickListener(v ->
-                NavHostFragment.findNavController(ThirdFragment.this)
-                        .navigate(R.id.action_ThirdFragment_to_SecondFragment)
-        );
     }
 
     private void updateLabel(){
