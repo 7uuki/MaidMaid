@@ -31,6 +31,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppDatabase appDatabase = getDatabase();
+        //AppDatabase appDatabase = getDatabase();
     }
 }
