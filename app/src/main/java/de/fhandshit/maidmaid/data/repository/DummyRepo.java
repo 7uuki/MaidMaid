@@ -2,6 +2,7 @@ package de.fhandshit.maidmaid.data.repository;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -81,10 +82,10 @@ public class DummyRepo extends Repo{
         nahrungsmittel.setColor(Color.rgb(180,150,123));
         categoires.add(nahrungsmittel);
 
-        Product bohnen = createPersonAndAdd(putzmittel,"Bohnen",3);
+        Product bohnen = createPersonAndAdd(nahrungsmittel,"Bohnen",3);
         createPersonItemsAndAdd(bohnen,50);
 
-        Product nudeln = createPersonAndAdd(putzmittel,"Nudeln",4);
+        Product nudeln = createPersonAndAdd(nahrungsmittel,"Nudeln",4);
         createPersonItemsAndAdd(nudeln,3);
 
         setProductDao(createProductDao());
