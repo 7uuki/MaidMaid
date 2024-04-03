@@ -1,19 +1,48 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Entity
 public class ProductItem {
-    private UUID id;
-    private LocalDate expiryDate;
-    private Product product;
+    @PrimaryKey(autoGenerate = true)
+    private int productId;
 
-    public UUID getId() {
-        return id;
+    public ProductItem(int productId, LocalDate expiryDate, Product product) {
+        this.productId = productId;
+        this.expiryDate = expiryDate;
+        this.product = product;
+        this.parentProductId = product.getId();
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public ProductItem() {
+    }
+
+    @Ignore
+    private LocalDate expiryDate;
+    @Ignore
+    private Product product;
+
+    private int parentProductId;
+
+    public int getParentProductId() {
+        return parentProductId;
+    }
+
+    public void setParentProductId(int parentProductId) {
+        this.parentProductId = parentProductId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public LocalDate getExpiryDate() {
