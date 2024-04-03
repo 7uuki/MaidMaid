@@ -66,14 +66,14 @@ public class ThirdFragment extends Fragment {
 
         nameText = binding.productNameInput;
         categoryList = binding.autoCompleteTextView;
-        try {
+
+        if (getArguments().getBoolean("fromProduct")) {
             int id = getArguments().getInt("id") ;
             Product product = App.getRepo().getProductDao().getAll().get(id);
             nameText.setText(product.getProductName());
             categoryList.setText(product.getCategoryName());
-        } catch (Exception e) {
-
         }
+
 /*
         TextInputEditText productNameInput = view.findViewById(R.id.product_name_input);
         TextInputEditText expiryDateInput = view.findViewById(R.id.date_picker);

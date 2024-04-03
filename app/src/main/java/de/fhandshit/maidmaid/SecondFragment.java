@@ -69,11 +69,15 @@ public class SecondFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-
-        binding.buttonFab.setOnClickListener(v ->
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_ThirdFragment));
-        //Reverse Sorting Algorithm
+        binding.buttonFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("fromProduct", false);
+                bundle.putInt("id", 0);
+                NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
+            }
+        });
 
         binding.btnChangeSort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +97,7 @@ public class SecondFragment extends Fragment {
     public void productSelectedTransaction(Product product){
         Bundle bundle = new Bundle();
         bundle.putInt("id", product.getId());
+        bundle.putBoolean("fromProduct", true);
         NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
     }
 

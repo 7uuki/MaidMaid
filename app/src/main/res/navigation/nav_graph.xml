@@ -41,6 +41,10 @@
         <argument
             android:name="id"
             app:argType="integer" />
+
+        <argument
+            android:name="fromProduct"
+            app:argType="boolean" />
     </fragment>
 
 </navigation>
