@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,7 +22,7 @@ import de.fhandshit.maidmaid.databinding.FragmentThirdBinding;
 
 public class ThirdFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
-    EditText dateText;
+    TextView dateText;
 
     private FragmentThirdBinding binding;
 
@@ -38,6 +39,8 @@ public class ThirdFragment extends Fragment {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, day);
+
+                dateText.setText(myCalendar.get(Calendar.DAY_OF_MONTH) + "." + myCalendar.get(Calendar.MONTH)+ "." + myCalendar.get(Calendar.YEAR));
             }
         };
         dateText.setOnClickListener(new View.OnClickListener() {
