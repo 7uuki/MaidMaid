@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,15 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
+import de.fhandshit.maidmaid.data.model.Product;
 import de.fhandshit.maidmaid.databinding.FragmentThirdBinding;
 
 public class ThirdFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
     TextInputEditText dateText;
+    TextInputEditText nameText;
     TextInputLayout dateText_Layout;
+    AutoCompleteTextView categoryList;
 
     private FragmentThirdBinding binding;
 
@@ -31,7 +35,6 @@ public class ThirdFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentThirdBinding.inflate(inflater, container, false);
-
 
         binding = FragmentThirdBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -60,6 +63,17 @@ public class ThirdFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        nameText = binding.productNameInput;
+        categoryList = binding.autoCompleteTextView;
+        try {
+            int id = getArguments().getInt("id") ;
+            Product product = App.getRepo().getProductDao().getAll().get(id);
+            nameText.setText(product.getProductName());
+            categoryList.setText(product.getCategoryName());
+        } catch (Exception e) {
+
+        }
 /*
         TextInputEditText productNameInput = view.findViewById(R.id.product_name_input);
         TextInputEditText expiryDateInput = view.findViewById(R.id.date_picker);
