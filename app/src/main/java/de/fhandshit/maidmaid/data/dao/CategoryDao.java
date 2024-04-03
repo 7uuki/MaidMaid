@@ -11,10 +11,10 @@ import de.fhandshit.maidmaid.data.model.Category;
 
 @Dao
 public interface CategoryDao {
-    @Query("SELECT * FROM category")
+    @Query("SELECT * FROM categories")
     List<Category> getAll();
 
-    @Query("SELECT * FROM category WHERE categoryName IN (:categoryName)")
+    @Query("SELECT * FROM categories WHERE name IN (:categoryName)")
     Category loadByName(String categoryName);
 
     @Insert

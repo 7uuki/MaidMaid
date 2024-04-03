@@ -13,6 +13,30 @@ public class Repo {
     private CategoryDao categoryDao;
     private ProductItemDao productItemDao;
 
+    public ProductDao getProductDao(){
+        return productDao;
+    }
+
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
+    }
+
+    public CategoryDao getCategoryDao() {
+        return categoryDao;
+    }
+
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
+
+    public ProductItemDao getProductItemDao() {
+        return productItemDao;
+    }
+
+    public void setProductItemDao(ProductItemDao productItemDao) {
+        this.productItemDao = productItemDao;
+    }
+
     public Repo(ProductDao productDao, CategoryDao categoryDao, ProductItemDao productItemDao) {
         this.productDao = productDao;
         this.categoryDao = categoryDao;
@@ -23,9 +47,6 @@ public class Repo {
         return categoryDao.getAll();
     }
 
-    public List<Product> getProducts(){
-        List<Product> products = productDao.getProductsWithCategories();
-    }
 
 
 

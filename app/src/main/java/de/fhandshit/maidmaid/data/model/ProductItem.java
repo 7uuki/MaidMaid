@@ -12,10 +12,30 @@ public class ProductItem {
     @PrimaryKey(autoGenerate = true)
     private int productId;
 
+    public ProductItem(int productId, LocalDate expiryDate, Product product) {
+        this.productId = productId;
+        this.expiryDate = expiryDate;
+        this.product = product;
+        this.parentProductId = product.getId();
+    }
+
+    public ProductItem() {
+    }
+
     @Ignore
     private LocalDate expiryDate;
     @Ignore
     private Product product;
+
+    private int parentProductId;
+
+    public int getParentProductId() {
+        return parentProductId;
+    }
+
+    public void setParentProductId(int parentProductId) {
+        this.parentProductId = parentProductId;
+    }
 
     public int getProductId() {
         return productId;

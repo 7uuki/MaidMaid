@@ -1,22 +1,28 @@
 package de.fhandshit.maidmaid.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Embedded;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Relation;
-import androidx.room.Transaction;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Locale;
 
 import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.data.model.Product;
+import de.fhandshit.maidmaid.data.model.ProductWithCategory;
 
 @Dao
 public interface ProductDao {
 
+    @Query("SELECT * FROM products")
+    LiveData<List<ProductWithCategory>> getProducts();
+
+    @Insert
+    void insertAll(Product... products);
+
+    List<Product> getProductsOfCategory(Category category);
+/*
     @Transaction
     @Query("SELECT * FROM product WHERE id = :id")
     ProductWithCategory findById(UUID id);
@@ -29,8 +35,7 @@ public interface ProductDao {
     @Query("SELECT * FROM product WHERE name LIKE :name LIMIT 1")
     Product findByName(String name);
 
-    @Insert
-    void insertAll(Product... products);
+
 
     @Delete
     void delete(Product product);
@@ -45,5 +50,5 @@ public interface ProductDao {
                 public Category category;
     }
 
-
+*/
 }

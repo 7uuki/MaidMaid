@@ -1,13 +1,10 @@
 package de.fhandshit.maidmaid.data;
 
-import android.app.Activity;
-
 import androidx.room.TypeConverter;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-import de.fhandshit.maidmaid.App;
 import de.fhandshit.maidmaid.data.model.Category;
 
 public class Converters {
@@ -29,7 +26,7 @@ public class Converters {
 
     @TypeConverter
     public static String categoryToNameString(Category category) {
-        return  category == null ? null : category.getCategoryName();
+        return  category == null ? null : category.getName();
     }
 
     @TypeConverter

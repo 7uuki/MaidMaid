@@ -13,17 +13,16 @@ import de.fhandshit.maidmaid.data.model.ProductItem;
 
 @Dao
 public interface ProductItemDao {
-    @Query("SELECT * FROM product")
+
+    //@Query("SELECT * FROM product")
     List<ProductItem> getAll();
 
-    @Query("SELECT * FROM product WHERE id IN (:itemIds)")
+    //@Query("SELECT * FROM product WHERE id IN (:itemIds)")
     List<ProductItem> loadAllByIds(int[] itemIds);
 
-    @Query("SELECT * FROM product WHERE id IN (:categories)")
-    List<ProductItem> loadAllByCategory(List<Category> categories);
 
-    @Query("SELECT * FROM product WHERE id IN (:products)")
-    List<ProductItem> loadAllByProducts(List<Product> products);
+    //@Query("SELECT * FROM product WHERE id IN (:products)")
+    List<ProductItem> loadAllByProduct(Product products);
 
 
 

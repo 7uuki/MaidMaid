@@ -6,23 +6,28 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "categories")
 public class Category {
+    public Category(@NonNull String name, int color) {
+        this.name = name;
+        this.color = color;
+    }
+
     @PrimaryKey
     @NonNull
-    private String categoryName;
+    private String name;
 
     private int color; //argb
 
     public Category(@NonNull String categoryName) {
-        this.categoryName = categoryName;
+        this.name = categoryName;
     }
 
     @NonNull
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(@NonNull String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(@NonNull String name) {
+        this.name = name;
     }
 
     public int getColor() {

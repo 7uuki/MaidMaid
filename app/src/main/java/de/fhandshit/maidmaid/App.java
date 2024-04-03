@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.room.Room;
 
 import de.fhandshit.maidmaid.data.database.AppDatabase;
+import de.fhandshit.maidmaid.data.repository.DummyRepo;
 import de.fhandshit.maidmaid.data.repository.Repo;
 
 public class App extends Application {
@@ -13,8 +14,10 @@ public class App extends Application {
 
     public Repo getRepo(){
         if(repo == null){
-            AppDatabase b1 = getDatabase();
-            repo = new Repo(b1.productDao(), b1.categoryDao(), b1.productItemDao());
+            repo = new DummyRepo();
+            //uncomment later for database connection
+            //AppDatabase b1 = getDatabase();
+            //repo = new Repo(b1.productDao(), b1.categoryDao(), b1.productItemDao());
         }
         return repo;
     }
@@ -28,6 +31,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppDatabase appDatabase= getDatabase();
+        AppDatabase appDatabase = getDatabase();
     }
 }
