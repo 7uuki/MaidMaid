@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import de.fhandshit.maidmaid.data.dao.ProductDao;
@@ -51,6 +52,19 @@ public class Repo {
         return productItemDao.getProductItems(product.getProductId());
     }
 
+    public LiveData<Product> getProduct(UUID uuid){
+        return productDao.getProduct(uuid);
+    }
 
+    public LiveData<Product> findByName(String name){
+        return productDao.findByName(name);
+    }
 
+    public void updateProduct(Product product){
+        database.execute(() -> productDao.update(product));
+    }
+
+    public void updateProductItem(ProductItem productItem){
+        database.execute(() -> productItemDao.update(productItem));
+    }
 }

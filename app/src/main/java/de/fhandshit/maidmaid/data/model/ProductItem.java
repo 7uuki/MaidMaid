@@ -16,6 +16,10 @@ public class ProductItem {
     @Embedded
     private Product product;
 
+    public ProductItem(LocalDate expiryDate, Product product) {
+        this.expiryDate = expiryDate;
+        this.product = product;
+    }
 
     public Product getProduct() {
         return product;
@@ -23,15 +27,6 @@ public class ProductItem {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductItem{" +
-                "productItemId=" + productItemId +
-                ", expiry4Date=" + expiryDate +
-                ", product=" + product +
-                '}';
     }
 
     public int getProductItemId() {

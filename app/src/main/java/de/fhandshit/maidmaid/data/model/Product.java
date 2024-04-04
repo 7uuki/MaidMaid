@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity(tableName = "products")
@@ -14,9 +15,25 @@ public class Product {
     @NonNull
     public UUID productId = UUID.randomUUID();
 
+    public Product(String name, String category, LocalDateTime lastAdd) {
+        this.name = name;
+        this.category = category;
+        this.lastAdd = lastAdd;
+    }
+
     private String name;
     private String category;
 
+    @ColumnInfo(name = "last_add")
+    private LocalDateTime lastAdd;
+
+    public LocalDateTime getLastAdd() {
+        return lastAdd;
+    }
+
+    public void updateLastAdd() {
+        this.lastAdd = LocalDateTime.now();
+    }
 
     public UUID getProductId() {
         return productId;
@@ -40,15 +57,6 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                '}';
     }
 }
 

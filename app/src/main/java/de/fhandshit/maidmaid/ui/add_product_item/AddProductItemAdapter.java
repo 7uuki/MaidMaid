@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.data.model.ProductItem;
 import de.fhandshit.maidmaid.databinding.ProductItemBinding;
 
@@ -54,15 +53,13 @@ public class AddProductItemAdapter extends RecyclerView.Adapter<AddProductItemAd
         }
 
         public void bind(ProductItem productItem){
-            Category category = productItem.getProduct().getCategory();
-            binding.productItemCategory.setText(category.getName());
+
             /*int color = category.getColor();
             int a = (color >> 24) & 0xff;
             int r = (color >> 16) & 0xff;
             int g = (color >>  8) & 0xff;
             int b = (color      ) & 0xff;
             binding.productItemCategory.setChipBackgroundColor(ColorStateList.valueOf(Color.argb(a,r,g,b)));*/
-            binding.productItemCategory.setChipBackgroundColor(ColorStateList.valueOf(category.getColor()));
 
         }
 

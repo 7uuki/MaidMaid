@@ -4,6 +4,7 @@ import androidx.room.TypeConverter;
 
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Converters {
@@ -36,6 +37,24 @@ public class Converters {
 
     @TypeConverter
     public static String toDateString(LocalDate date) {
+        if (date == null) {
+            return null;
+        } else {
+            return date.toString();
+        }
+    }
+
+    @TypeConverter
+    public static LocalDateTime toDateTime(String dateString) {
+        if (dateString == null) {
+            return null;
+        } else {
+            return LocalDateTime.parse(dateString);
+        }
+    }
+
+    @TypeConverter
+    public static String toDateTimeString(LocalDateTime date) {
         if (date == null) {
             return null;
         } else {
