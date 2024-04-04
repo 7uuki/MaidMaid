@@ -1,100 +1,53 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Entity(tableName = "products",
-        foreignKeys = @ForeignKey(
-                entity = Category.class,
-                parentColumns = "name",
-                childColumns = "categoryName",
-                onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "products")
 public class Product {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    @PrimaryKey
+    @ColumnInfo(name = "product_id")
+    @NonNull
+    public UUID productId = UUID.randomUUID();
 
-    public Product(int id,LocalDateTime lastAdd, String productName, Category category) {
-        this.id= id;
-        this.lastAdd = lastAdd;
-        this.productName = productName;
-        this.categoryName = category.getName();
-        this.category = category;
+    private String name;
+    private String category;
+
+
+    public UUID getProductId() {
+        return productId;
     }
 
-    public Product(int i, String productName, Category category) {
-        this.id= id;
-        this.productName = productName;
-        this.categoryName = category.getName();
-        this.category = category;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
-    public Product() {
-    }
-    @Ignore
-    private LocalDateTime lastAdd;
-
-    private String productName;
-
-    @ColumnInfo(index = true)
-    private String categoryName; // Foreign key
-
-    @Embedded
-    private Category category;
-
-    public LocalDateTime getLastAdd() {
-        return lastAdd;
+    public String getName() {
+        return name;
     }
 
-    public void setLastAdd(LocalDateTime lastAdd) {
-        this.lastAdd = lastAdd;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
-                ", lastAdd=" + lastAdd +
-                ", productName='" + productName + '\'' +
-                ", categoryName='" + categoryName + '\'' +
-                ", category:Name" + category.getName() +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

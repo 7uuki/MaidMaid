@@ -1,52 +1,55 @@
 package de.fhandshit.maidmaid.data.repository;
 
-import java.util.List;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
-import de.fhandshit.maidmaid.data.dao.CategoryDao;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import de.fhandshit.maidmaid.data.dao.ProductDao;
 import de.fhandshit.maidmaid.data.dao.ProductItemDao;
-import de.fhandshit.maidmaid.data.model.Category;
+import de.fhandshit.maidmaid.data.database.AppDatabase;
 import de.fhandshit.maidmaid.data.model.Product;
+import de.fhandshit.maidmaid.data.model.ProductItem;
 
 public class Repo {
+    private AppDatabase database;
     private ProductDao productDao;
-    private CategoryDao categoryDao;
     private ProductItemDao productItemDao;
 
-    public ProductDao getProductDao(){
-        return productDao;
+    public Repo(AppDatabase appDatabase) {
+        database = appDatabase;
+        productDao = database.productDao();
+        productItemDao = database.productItemDao();
     }
 
-    public void setProductDao(ProductDao productDao) {
-        this.productDao = productDao;
+
+    public LiveData<List<String>> getCategories(){
+        return Transformations.map(productDao.getAll(), products ->
+                products.stream().map(Product::getCategory).distinct().collect(Collectors.toList()));
     }
 
-    public CategoryDao getCategoryDao() {
-        return categoryDao;
+
+    public LiveData<List<Product>> getProducts(){
+        return productDao.getAll();
     }
 
-    public void setCategoryDao(CategoryDao categoryDao) {
-        this.categoryDao = categoryDao;
+    public LiveData<List<ProductItem>> getProductItems(){
+        return productItemDao.getAll();
     }
 
-    public ProductItemDao getProductItemDao() {
-        return productItemDao;
+
+    public void insertProduct(Product product){
+        database.execute(() -> productDao.insert(product));
     }
 
-    public void setProductItemDao(ProductItemDao productItemDao) {
-        this.productItemDao = productItemDao;
+    public void insertProductItem(ProductItem productItem){
+        database.execute(() -> productItemDao.insert(productItem));
     }
 
-    public Repo(ProductDao productDao, CategoryDao categoryDao, ProductItemDao productItemDao) {
-        this.productDao = productDao;
-        this.categoryDao = categoryDao;
-        this.productItemDao = productItemDao;
+    public LiveData<List<ProductItem>> getProductItems(Product product){
+        return productItemDao.getProductItems(product.getProductId());
     }
-
-    public List<Category> getCategories(){
-        return categoryDao.getAll();
-    }
-
 
 
 

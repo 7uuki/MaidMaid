@@ -3,9 +3,8 @@ package de.fhandshit.maidmaid.data;
 import androidx.room.TypeConverter;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDate;
 import java.util.UUID;
-
-import de.fhandshit.maidmaid.data.model.Category;
 
 public class Converters {
     @TypeConverter
@@ -24,14 +23,23 @@ public class Converters {
         return bb.array();
     }
 
+
+
     @TypeConverter
-    public static String categoryToNameString(Category category) {
-        return  category == null ? null : category.getName();
+    public static LocalDate toDate(String dateString) {
+        if (dateString == null) {
+            return null;
+        } else {
+            return LocalDate.parse(dateString);
+        }
     }
 
     @TypeConverter
-    public static Category stringToCategory(String name){
-        return new Category(name);
-
+    public static String toDateString(LocalDate date) {
+        if (date == null) {
+            return null;
+        } else {
+            return date.toString();
+        }
     }
 }
