@@ -36,8 +36,8 @@ import java.util.UUID;
 
 import de.fhandshit.maidmaid.data.model.Product;
 import de.fhandshit.maidmaid.data.model.ProductItem;
-import de.fhandshit.maidmaid.data.repository.Repo;
 import de.fhandshit.maidmaid.databinding.FragmentThirdBinding;
+import de.fhandshit.maidmaid.data.repository.Repo;
 
 public class ThirdFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
@@ -104,6 +104,7 @@ public class ThirdFragment extends Fragment {
                 binding.productNameInput.setText(product.getName());
                 binding.categoryDropdownInput.setText(product.getCategory());
             });
+
         }
 
 
