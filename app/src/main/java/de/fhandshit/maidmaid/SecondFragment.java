@@ -19,17 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import de.fhandshit.maidmaid.data.database.AppDatabase;
 import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.data.model.Product;
 import de.fhandshit.maidmaid.databinding.FragmentSecondBinding;
 import de.fhandshit.maidmaid.ui.add_product_item.AddProductItemFragment;
 
 public class SecondFragment extends Fragment {
-
     private FragmentSecondBinding binding;
     private boolean ascendingSort;
     private ArrayList<Product> productList;
@@ -49,14 +50,10 @@ public class SecondFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         productList = new ArrayList<>();
-        sortRecyclerView(true);
-        // data to populate the RecyclerView with
-        ArrayList<String> animalNames = new ArrayList<>();
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
+        populateRecyclerView();
+        //sortRecyclerView(true);
+
+
 
         // set up the RecyclerView
         RecyclerView recyclerView = binding.rvAnimals;//findViewById(R.id.rvAnimals);
@@ -72,11 +69,15 @@ public class SecondFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-
-        binding.buttonFab.setOnClickListener(v ->
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_ThirdFragment));
-        //Reverse Sorting Algorithm
+        binding.buttonFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("fromProduct", false);
+                bundle.putInt("id", 0);
+                NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
+            }
+        });
 
         binding.btnChangeSort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,21 +96,30 @@ public class SecondFragment extends Fragment {
 
     public void productSelectedTransaction(Product product){
         Bundle bundle = new Bundle();
-        //bundle.putInt("id", product.getId());
-        NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.ThirdFragment, bundle);
+        bundle.putInt("id", product.getId());
+        bundle.putBoolean("fromProduct", true);
+        NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
     }
 
-    public void populateRecyclerView(ArrayList<Product> list){
-        this.productList = list;
+    public void populateRecyclerView(){
+        this.productList = (ArrayList<Product>) App.getRepo().getProductDao().getAll();
     }
 
     public void sortRecyclerView(boolean leastRecent){
-        if(leastRecent) {
-            productList.sort(Comparator.comparing(Product::getLastAdd));
-            ascendingSort = true;
-        }else{
-            productList.sort(Comparator.comparing(Product::getLastAdd).reversed());
-            ascendingSort = false;
+        if(productList!=null) {
+            if (leastRecent) {
+                binding.textSorted.setText("ascending");
+                binding.btnChangeSort.setImageResource(R.drawable.ic_arrow_up);
+                productList.sort(Comparator.comparing(Product::getLastAdd).reversed());
+                ascendingSort = true;
+            } else {
+                binding.textSorted.setText("descending");
+                binding.btnChangeSort.setImageResource(R.drawable.ic_arrow_down);
+                productList.sort(Comparator.comparing(Product::getLastAdd));
+                ascendingSort = false;
+            }
+            Log.d("list in fragment", Arrays.toString(productList.toArray()));
+            adapter.updateList(productList);
         }
 
     }

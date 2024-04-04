@@ -32,15 +32,19 @@
     <fragment
         android:id="@+id/ThirdFragment"
         android:name="de.fhandshit.maidmaid.ThirdFragment"
-        android:label="Third Fragment"
+        android:label="@string/third_fragment_label"
         tools:layout="@layout/fragment_third" >
         <action
             android:id="@+id/action_ThirdFragment_to_SecondFragment"
             app:destination="@id/SecondFragment"/>
 
         <argument
-            android:name="productId"
+            android:name="id"
             app:argType="integer" />
+
+        <argument
+            android:name="fromProduct"
+            app:argType="boolean" />
     </fragment>
 
 </navigation>

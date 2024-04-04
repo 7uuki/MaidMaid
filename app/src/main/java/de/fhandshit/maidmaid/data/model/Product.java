@@ -8,6 +8,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity(tableName = "products",
         foreignKeys = @ForeignKey(
@@ -27,11 +28,18 @@ public class Product {
         this.category = category;
     }
 
-    public Product() {
+    public Product(int i, String productName, Category category) {
+        this.id= id;
+        this.productName = productName;
+        this.categoryName = category.getName();
+        this.category = category;
     }
 
+    public Product() {
+    }
     @Ignore
     private LocalDateTime lastAdd;
+
     private String productName;
 
     @ColumnInfo(index = true)
@@ -78,6 +86,25 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", lastAdd=" + lastAdd +
+                ", productName='" + productName + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", category:Name" + category.getName() +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Objects.equals(productName, product.productName) && Objects.equals(categoryName, product.categoryName) && Objects.equals(category, product.category);
     }
 }
 
