@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/QrFragment"
-        android:name="de.fhandshit.maidmaid.fragment_qr"
+        android:name="de.fhandshit.maidmaid.QrFragment"
         android:label="QR Fragment"
         tools:layout="@layout/fragment_qr">
         <action

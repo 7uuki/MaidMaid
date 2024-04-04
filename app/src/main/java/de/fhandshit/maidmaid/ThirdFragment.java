@@ -71,10 +71,6 @@ public class ThirdFragment extends Fragment {
         if (getArguments().getBoolean("fromProduct")) {
             int id = getArguments().getInt("id");
             Product product = App.getRepo().getProductDao().getAll().get(id);
-            Log.d("TAG", product.getCategoryName());
-            Log.d("TAG", product.getCategory().getName());
-            Log.d("TAG", product.getProductName());
-            Log.d("TAG", String.valueOf(product.getId()));
             nameText.setText(product.getProductName());
             categoryList.setText(product.getCategoryName());
         }

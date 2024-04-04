@@ -10,9 +10,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -29,16 +26,14 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.io.IOException;
 
 import de.fhandshit.maidmaid.data.model.Product;
-import de.fhandshit.maidmaid.databinding.FragmentFirstBinding;
 import de.fhandshit.maidmaid.databinding.FragmentQrBinding;
-import de.fhandshit.maidmaid.databinding.FragmentSecondBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_qr#newInstance} factory method to
+ * Use the {@link QrFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_qr extends Fragment {
+public class QrFragment extends Fragment {
 
     private FragmentQrBinding binding;
     private SurfaceView surfaceView;
@@ -50,40 +45,23 @@ public class fragment_qr extends Fragment {
     private TextView barcodeText;
     private String barcodeData;
 
-    public fragment_qr() {
+    public QrFragment() {
         // Required empty public constructor
     }
 
-    public static fragment_qr newInstance(String param1, String param2) {
-        fragment_qr fragment = new fragment_qr();
+    public static QrFragment newInstance(String param1, String param2) {
+        QrFragment fragment = new QrFragment();
         return fragment;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
-
         toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC,     100);
         surfaceView = binding.surfaceView;
         barcodeText = binding.barcodeText;
-
         initialiseDetectorsAndSources();
-        barcodeText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("TextChanged", "onTextChanged: "+charSequence);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
 
 
@@ -170,14 +148,14 @@ public class fragment_qr extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putInt("id", product.getId());
                                     bundle.putBoolean("fromProduct", true);
-                                    NavHostFragment.findNavController(fragment_qr).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
+                                    NavHostFragment.findNavController(QrFragment).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
                                 }else {
                                     //Produkt existiert nicht in Datenbank
                                     Product product = App.getRepo().getProductDao().getProduct(barcodeText.getText());
                                     Bundle bundle = new Bundle();
                                     bundle.putInt("id", product.getId());
                                     bundle.putBoolean("fromProduct", false);
-                                    NavHostFragment.findNavController(fragment_qr).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
+                                    NavHostFragment.findNavController(QrFragment).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
                                 }
 
                             }
