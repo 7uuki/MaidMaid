@@ -3,6 +3,7 @@ package de.fhandshit.maidmaid;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -35,12 +37,15 @@ import java.util.List;
 import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.data.model.Product;
 import de.fhandshit.maidmaid.data.model.ProductItem;
+import de.fhandshit.maidmaid.data.model.Product;
 import de.fhandshit.maidmaid.databinding.FragmentThirdBinding;
 
 public class ThirdFragment extends Fragment {
     final Calendar myCalendar = Calendar.getInstance();
     TextInputEditText dateText;
+    TextInputEditText nameText;
     TextInputLayout dateText_Layout;
+    AutoCompleteTextView categoryList;
 
     private FragmentThirdBinding binding;
 
@@ -50,6 +55,7 @@ public class ThirdFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentThirdBinding.inflate(inflater, container, false);
+
         binding = FragmentThirdBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -87,6 +93,21 @@ public class ThirdFragment extends Fragment {
                 new DatePickerDialog(getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        nameText = binding.productNameInput;
+        categoryList = binding.categoryDropdownInput;
+
+        if (getArguments().getBoolean("fromProduct")) {
+            int id = getArguments().getInt("id");
+            Product product = App.getRepo().getProductDao().getAll().get(id);
+            Log.d("TAG", product.getCategoryName());
+            Log.d("TAG", product.getCategory().getName());
+            Log.d("TAG", product.getProductName());
+            Log.d("TAG", String.valueOf(product.getId()));
+            nameText.setText(product.getProductName());
+            categoryList.setText(product.getCategoryName());
+        }
+
 
         TextInputEditText productNameInput = binding.productNameInput;
         TextInputEditText expiryDateInput = binding.datePicker;
