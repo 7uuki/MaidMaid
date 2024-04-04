@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/ThirdFragment"
         android:name="de.fhandshit.maidmaid.ThirdFragment"
-        android:label="Third Fragment"
+        android:label="@string/third_fragment_label"
         tools:layout="@layout/fragment_third" >
         <action
             android:id="@+id/action_ThirdFragment_to_SecondFragment"
@@ -43,7 +43,7 @@
 
         <argument
             android:name="id"
-            app:argType="integer" />
+            app:argType="string" />
 
         <argument
             android:name="fromProduct"

@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "de.fhandshit.maidmaid"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -39,13 +39,8 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.room.runtime)
-    implementation(libs.room.common)
-    implementation(libs.play.services.vision.common)
     annotationProcessor(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("androidx.compose.material3:material3:1.2.1")
-    implementation("com.google.android.gms:play-services-vision:11.0.2")
-    implementation("com.google.code.gson:gson:2.10.1")
 }

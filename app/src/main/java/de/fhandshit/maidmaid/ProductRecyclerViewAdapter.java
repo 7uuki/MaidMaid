@@ -1,6 +1,7 @@
 package de.fhandshit.maidmaid;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,47 +10,57 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import de.fhandshit.maidmaid.data.model.Product;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder> {
 
-    private List<Product> mData;
+    private List<Product> productList;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    // data is passed into the constructor
-    ProductRecyclerViewAdapter(Context context, ArrayList<Product> data) {
+    ProductRecyclerViewAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
-
-        this.mData = data;
+        productList = new ArrayList<>();
     }
 
-    // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.product_recylcer_view_row, parent, false);
         return new ViewHolder(view);
     }
 
-    // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String productName = mData.get(position).getProductName();
-        holder.myTextView.setText(productName);
+        Product product = productList.get(position);
+        holder.bind(product);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return productList.size();
+    }
+
+    public void updateList(List<Product> productList) {
+        Log.d("list in adapter", Arrays.toString(productList.toArray()));
+        this.productList.clear();
+        this.productList.addAll(productList);
+        notifyDataSetChanged();
+    }
+
+    public void sortRecyclerView(boolean leastRecent) {
+        if (leastRecent) productList.sort(Comparator.comparing(Product::getLastAdd).reversed());
+        else productList.sort(Comparator.comparing(Product::getLastAdd));
+        notifyDataSetChanged();
     }
 
 
-    // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        private TextView myTextView;
+        private Product product;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -57,24 +68,23 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
             itemView.setOnClickListener(this);
         }
 
+        void bind(Product product) {
+            this.product = product;
+            myTextView.setText(product.getName());
+        }
+
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) mClickListener.onItemClick(view, product);
         }
     }
 
-    // convenience method for getting data at click position
-    String getItem(int id) {
-        return mData.get(id).getProductName();
-    }
-
-    // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
+    void setItemClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+
+        void onItemClick(View view, Product product);
     }
 }
