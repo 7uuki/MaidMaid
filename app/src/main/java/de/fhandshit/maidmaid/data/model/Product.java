@@ -27,11 +27,18 @@ public class Product {
         this.category = category;
     }
 
-    public Product() {
+    public Product(int i, String productName, Category category) {
+        this.id= id;
+        this.productName = productName;
+        this.categoryName = category.getName();
+        this.category = category;
     }
 
+    public Product() {
+    }
     @Ignore
     private LocalDateTime lastAdd;
+
     private String productName;
 
     @ColumnInfo(index = true)
