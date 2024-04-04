@@ -1,30 +1,29 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
 import java.util.UUID;
 
 @Entity(tableName = "products")
 public class Product {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    @PrimaryKey
+    @ColumnInfo(name = "product_id")
+    @NonNull
+    public UUID productId = UUID.randomUUID();
 
     private String name;
+    private String category;
 
-    private Category category;
 
-    public int getId() {
-        return id;
+    public UUID getProductId() {
+        return productId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -35,12 +34,21 @@ public class Product {
         this.name = name;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
     }
 }
 

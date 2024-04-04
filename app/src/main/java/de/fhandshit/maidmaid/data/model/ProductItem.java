@@ -1,28 +1,45 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
+@Entity(tableName = "product_items")
 public class ProductItem {
     @PrimaryKey(autoGenerate = true)
-    private int productId;
-
-    @Ignore
+    @ColumnInfo(name = "product_item_id")
+    private int productItemId;
     private LocalDate expiryDate;
-    @Ignore
+    @Embedded
     private Product product;
 
-    public int getProductId() {
-        return productId;
+
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductItem{" +
+                "productItemId=" + productItemId +
+                ", expiry4Date=" + expiryDate +
+                ", product=" + product +
+                '}';
+    }
+
+    public int getProductItemId() {
+        return productItemId;
+    }
+
+    public void setProductItemId(int productItemId) {
+        this.productItemId = productItemId;
     }
 
     public LocalDate getExpiryDate() {
@@ -33,11 +50,4 @@ public class ProductItem {
         this.expiryDate = expiryDate;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }
