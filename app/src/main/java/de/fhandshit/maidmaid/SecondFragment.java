@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -108,12 +109,18 @@ public class SecondFragment extends Fragment {
     public void sortRecyclerView(boolean leastRecent){
         if(productList!=null) {
             if (leastRecent) {
-                productList.sort(Comparator.comparing(Product::getLastAdd));
+                binding.textSorted.setText("ascending");
+                binding.btnChangeSort.setImageResource(R.drawable.ic_arrow_up);
+                productList.sort(Comparator.comparing(Product::getLastAdd).reversed());
                 ascendingSort = true;
             } else {
-                productList.sort(Comparator.comparing(Product::getLastAdd).reversed());
+                binding.textSorted.setText("descending");
+                binding.btnChangeSort.setImageResource(R.drawable.ic_arrow_down);
+                productList.sort(Comparator.comparing(Product::getLastAdd));
                 ascendingSort = false;
             }
+            Log.d("list in fragment", Arrays.toString(productList.toArray()));
+            adapter.updateList(productList);
         }
 
     }

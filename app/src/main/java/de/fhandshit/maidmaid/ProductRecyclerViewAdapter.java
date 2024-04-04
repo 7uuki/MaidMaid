@@ -1,6 +1,7 @@
 package de.fhandshit.maidmaid;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.fhandshit.maidmaid.data.model.Product;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder> {
 
-    private List<Product> mData;
+    private List<Product> mData = new ArrayList<>();
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
@@ -23,7 +25,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     ProductRecyclerViewAdapter(Context context, ArrayList<Product> data) {
         this.mInflater = LayoutInflater.from(context);
 
-        this.mData = data;
+        mData.clear();
+        mData.addAll(data);
     }
 
     // inflates the row layout from xml when needed
@@ -46,6 +49,12 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return mData.size();
     }
 
+    public void updateList(List<Product> productList){
+        Log.d("list in adapter", Arrays.toString(productList.toArray()));
+        mData.clear();
+        mData.addAll(productList);
+        notifyDataSetChanged();
+    }
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
