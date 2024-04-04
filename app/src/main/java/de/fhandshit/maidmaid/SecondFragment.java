@@ -31,7 +31,6 @@ import de.fhandshit.maidmaid.databinding.FragmentSecondBinding;
 import de.fhandshit.maidmaid.ui.add_product_item.AddProductItemFragment;
 
 public class SecondFragment extends Fragment {
-
     private FragmentSecondBinding binding;
     private boolean ascendingSort;
     private ArrayList<Product> productList;
