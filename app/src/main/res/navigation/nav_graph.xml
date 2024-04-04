@@ -42,7 +42,7 @@
             app:destination="@id/SecondFragment"/>
 
         <argument
-            android:name="id"
+            android:name="name"
             app:argType="string" />
 
         <argument

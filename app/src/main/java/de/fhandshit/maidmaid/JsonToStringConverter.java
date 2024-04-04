@@ -1,5 +1,8 @@
 package de.fhandshit.maidmaid;
+import android.util.Log;
+
 import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

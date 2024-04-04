@@ -85,7 +85,7 @@ public class SecondFragment extends Fragment {
 
     public void productSelectedTransaction(Product product) {
         Bundle bundle = new Bundle();
-        bundle.putString("id", product.getProductId().toString());
+        bundle.putString("name", product.getName());
         bundle.putBoolean("fromProduct", true);
         NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
     }

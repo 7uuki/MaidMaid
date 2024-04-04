@@ -8,8 +8,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -26,6 +30,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import java.io.IOException;
 
 import de.fhandshit.maidmaid.data.model.Product;
+import de.fhandshit.maidmaid.data.repository.Repo;
 import de.fhandshit.maidmaid.databinding.FragmentQrBinding;
 
 /**
@@ -44,6 +49,7 @@ public class QrFragment extends Fragment {
     private ToneGenerator toneGen1;
     private TextView barcodeText;
     private String barcodeData;
+    private String productName;
 
     public QrFragment() {
         // Required empty public constructor
@@ -123,13 +129,12 @@ public class QrFragment extends Fragment {
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() != 0) {
+                if (barcodes.size() == 1) {
 
                     barcodeText.post(new Runnable() {
 
                         @Override
                         public void run() {
-
                             if (barcodes.valueAt(0).email != null) {
                                 barcodeText.removeCallbacks(null);
                                 barcodeData = barcodes.valueAt(0).email.address;
@@ -141,23 +146,8 @@ public class QrFragment extends Fragment {
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
                                 //Übergabe an Third Fragment
-
-                                if (App.getRepo().getProductDao().existProduct(barcodeText.getText())) {
-                                    //Produkt existiert in Datenbank mit einer QR Id
-                                    Product product = App.getRepo().getProductDao().getProduct(barcodeText.getText());
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("id", product.getId());
-                                    bundle.putBoolean("fromProduct", true);
-                                    NavHostFragment.findNavController(QrFragment).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
-                                }else {
-                                    //Produkt existiert nicht in Datenbank
-                                    Product product = App.getRepo().getProductDao().getProduct(barcodeText.getText());
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("id", product.getId());
-                                    bundle.putBoolean("fromProduct", false);
-                                    NavHostFragment.findNavController(QrFragment).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
-                                }
-
+                                ProductInfoRetriever pir = new ProductInfoRetriever(QrFragment.this);
+                                pir.retrieveProductName(barcodeText.getText().toString());
                             }
                         }
                     });
@@ -165,5 +155,38 @@ public class QrFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void setProductName(String string){
+        this.productName = string;
+        Repo repo = ((App) getActivity().getApplication()).getRepo();
+        LiveData<Product> liveData = repo.findByName(productName);
+        if(productName.equals("Product name not found")){
+            Log.e("Fdfds","Product name not found");
+            Log.d("Bundle", "productName: "+productName);
+            Bundle bundle = new Bundle();
+            bundle.putString("name", productName);
+            bundle.putBoolean("fromProduct", false);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                NavHostFragment.findNavController(QrFragment.this).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
+            });
+
+        }else {
+            if (liveData.getValue()!=null) {
+
+                //Produkt existiert in Datenbank mit einer QR Id
+                Bundle bundle = new Bundle();
+                bundle.putString("name", productName);
+                bundle.putBoolean("fromProduct", true);
+                NavHostFragment.findNavController(QrFragment.this).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
+            } else {
+                //Produkt existiert nicht in Datenbank
+                Log.d("Bundle", "productName: "+productName);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", productName);
+                bundle.putBoolean("fromProduct", false);
+                NavHostFragment.findNavController(QrFragment.this).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
+            }
+        }
     }
 }
