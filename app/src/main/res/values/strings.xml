@@ -12,4 +12,5 @@
     <string name="product_name">name</string>
     <string name="category_hint">category</string>
     <string name="third_fragment_label">Add new Product</string>
+    <string name="search">Search</string>
 </resources>

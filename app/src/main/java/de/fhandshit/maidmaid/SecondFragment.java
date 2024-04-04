@@ -1,13 +1,21 @@
 package de.fhandshit.maidmaid;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +24,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
@@ -23,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import de.fhandshit.maidmaid.data.database.AppDatabase;
 import de.fhandshit.maidmaid.data.model.Category;
@@ -35,15 +46,60 @@ public class SecondFragment extends Fragment {
     private boolean ascendingSort;
     private ArrayList<Product> productList;
 
+    private ListView listView;
+    private SearchView searchView;
+    private ArrayAdapter searchBarAdapter;
+    private List<String> stringList;
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentSecondBinding.inflate(inflater, container, false);
-        return binding.getRoot();
 
+        View rootView = inflater.inflate(R.layout.fragment_second, container, false);
+        //Searchbar:
+        listView = binding.listView;
+        searchView = binding.searchView;
+
+        listView.setVisibility(View.INVISIBLE);
+
+        // Sample list of strings
+        stringList = getProductNamesFromDatabase();
+
+        // Initialize adapter with the full list
+        searchBarAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, stringList);
+        listView.setAdapter(searchBarAdapter);
+
+        // Implement search functionality
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filter the list based on the search query
+                binding.listView.setVisibility(View.VISIBLE);
+                Log.d("TAG", "befor");
+                if (TextUtils.isEmpty(newText)) {
+                    Log.d("TAG", "isempty");
+                    // If the search query is empty, show the full list
+                    searchBarAdapter.getFilter().filter("");
+                } else {
+                    Log.d("TAG", "notEmpty");
+                    // Show only items that match the search query
+                    searchBarAdapter.getFilter().filter(newText);
+                    searchBarAdapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
+
+        return binding.getRoot();
     }
 
     ProductRecyclerViewAdapter adapter;
@@ -52,8 +108,6 @@ public class SecondFragment extends Fragment {
         productList = new ArrayList<>();
         populateRecyclerView();
         //sortRecyclerView(true);
-
-
 
         // set up the RecyclerView
         RecyclerView recyclerView = binding.rvAnimals;//findViewById(R.id.rvAnimals);
@@ -87,6 +141,37 @@ public class SecondFragment extends Fragment {
             }
         });
 
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.listView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    listView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                listView.setVisibility(View.INVISIBLE);
+                searchView.clearFocus();
+                //productSelectedTransaction(); TODO: Sollte ausgeführt werden damit es auf third übertragen wird
+            }
+        });
+
+    }
+
+
+    public List<String> getProductNamesFromDatabase() {
+        List<String> categoriesString = new ArrayList<>(Arrays.asList("Apple", "Banana", "Orange", "Pineapple", "Grapes", "Watermelon"));
+        return categoriesString;
     }
 
 

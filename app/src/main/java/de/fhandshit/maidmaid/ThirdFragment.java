@@ -99,6 +99,7 @@ public class ThirdFragment extends Fragment {
 
         if (getArguments().getBoolean("fromProduct")) {
             int id = getArguments().getInt("id");
+            //TODO: mit Id abspeichern
             Product product = App.getRepo().getProductDao().getAll().get(id);
             Log.d("TAG", product.getCategoryName());
             Log.d("TAG", product.getCategory().getName());
@@ -107,6 +108,7 @@ public class ThirdFragment extends Fragment {
             nameText.setText(product.getProductName());
             categoryList.setText(product.getCategoryName());
         }
+        //TODO: Neues Produkt erstellen nur nicht mir random ID sonder der übergebenen
 
 
         TextInputEditText productNameInput = binding.productNameInput;
@@ -145,7 +147,6 @@ public class ThirdFragment extends Fragment {
                 }
                 // Convert the Date object to LocalDate if necessary (optional)
                 LocalDate expiryDate = parsedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
 
                 //Create Category Object from User Input
                 String selectedCategory = categoryDropdownInput.getText().toString();
