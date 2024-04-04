@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity(tableName = "products")
@@ -41,6 +42,19 @@ public class Product {
 
     public void setProductId(UUID productId) {
         this.productId = productId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Objects.equals(productId, product.productId) && Objects.equals(name, product.name) && Objects.equals(category, product.category) && Objects.equals(lastAdd, product.lastAdd);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productId, name, category, lastAdd);
     }
 
     public String getName() {
