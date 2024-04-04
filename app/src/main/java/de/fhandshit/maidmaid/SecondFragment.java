@@ -1,13 +1,20 @@
 package de.fhandshit.maidmaid;
 
+import static java.util.Arrays.*;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +27,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.fhandshit.maidmaid.data.model.Product;
@@ -31,6 +40,12 @@ public class SecondFragment extends Fragment {
     private boolean ascendingSort;
     private LiveData<List<Product>> productList;
     private Repo repo;
+
+    //
+    private ListView listView;
+    private SearchView searchView;
+    private ArrayAdapter searchBarAdapter;
+    private List<String> stringList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +87,70 @@ public class SecondFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
 
+        //Searchbar:
+        listView = binding.listView;
+        searchView = binding.searchView;
+
+        listView.setVisibility(View.INVISIBLE);
+
+        // Sample list of strings
+        stringList = getProductNamesFromDatabase();
+
+        // Initialize adapter with the full list
+        searchBarAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, stringList);
+        listView.setAdapter(searchBarAdapter);
+
+        // Implement search functionality
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filter the list based on the search query
+                binding.listView.setVisibility(View.VISIBLE);
+                Log.d("TAG", "befor");
+                if (TextUtils.isEmpty(newText)) {
+                    Log.d("TAG", "isempty");
+                    // If the search query is empty, show the full list
+                    searchBarAdapter.getFilter().filter("");
+                } else {
+                    Log.d("TAG", "notEmpty");
+                    // Show only items that match the search query
+                    searchBarAdapter.getFilter().filter(newText);
+                    searchBarAdapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.listView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    listView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                listView.setVisibility(View.INVISIBLE);
+                searchView.clearFocus();
+                //productSelectedTransaction(); TODO: Sollte ausgeführt werden damit es auf third übertragen wird
+            }
+        });
 
         binding.buttonFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,83 +236,16 @@ public class SecondFragment extends Fragment {
         private boolean isLastItem(int position, RecyclerView parent) {
             return position == parent.getAdapter().getItemCount() - 1;
         }
-    private ListView listView;
-    private SearchView searchView;
-    private ArrayAdapter searchBarAdapter;
-    private List<String> stringList;
 
 
-        View rootView = inflater.inflate(R.layout.fragment_second, container, false);
-        //Searchbar:
-        listView = binding.listView;
-        searchView = binding.searchView;
-
-        listView.setVisibility(View.INVISIBLE);
-
-        // Sample list of strings
-        stringList = getProductNamesFromDatabase();
-
-        // Initialize adapter with the full list
-        searchBarAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, stringList);
-        listView.setAdapter(searchBarAdapter);
-
-        // Implement search functionality
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Filter the list based on the search query
-                binding.listView.setVisibility(View.VISIBLE);
-                Log.d("TAG", "befor");
-                if (TextUtils.isEmpty(newText)) {
-                    Log.d("TAG", "isempty");
-                    // If the search query is empty, show the full list
-                    searchBarAdapter.getFilter().filter("");
-                } else {
-                    Log.d("TAG", "notEmpty");
-                    // Show only items that match the search query
-                    searchBarAdapter.getFilter().filter(newText);
-                    searchBarAdapter.notifyDataSetChanged();
-                }
-                return true;
-            }
-        });
-
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.listView.setVisibility(View.VISIBLE);
-            }
-        });
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    listView.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                listView.setVisibility(View.INVISIBLE);
-                searchView.clearFocus();
-                //productSelectedTransaction(); TODO: Sollte ausgeführt werden damit es auf third übertragen wird
-            }
-        });
 
     }
 
 
     public List<String> getProductNamesFromDatabase() {
-        List<String> categoriesString = new ArrayList<>(Arrays.asList("Apple", "Banana", "Orange", "Pineapple", "Grapes", "Watermelon"));
+        List<String> categoriesString = new ArrayList<>(asList("Apple", "Banana", "Orange", "Pineapple", "Grapes", "Watermelon"));
         return categoriesString;
     }
 
