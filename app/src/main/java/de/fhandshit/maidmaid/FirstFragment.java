@@ -8,8 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
+import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.databinding.FragmentFirstBinding;
+import de.fhandshit.maidmaid.ui.categoryView.CategoryViewAdapter;
 
 public class FirstFragment extends Fragment {
 
@@ -25,9 +31,17 @@ public class FirstFragment extends Fragment {
         return binding.getRoot();
 
     }
+    private RecyclerView categoryRecyclerView;
+    private CategoryViewAdapter categoryAdapter;
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        List<Category> categories = App.getRepo().getCategories();
+
+        categoryRecyclerView = binding.rvCategoryList;
+        categoryAdapter = new CategoryViewAdapter(categories);
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        categoryRecyclerView.setAdapter(categoryAdapter);
         binding.floatingActionButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment)

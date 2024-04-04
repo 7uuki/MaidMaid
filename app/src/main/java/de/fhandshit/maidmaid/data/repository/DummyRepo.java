@@ -87,9 +87,9 @@ public class DummyRepo extends Repo{
         Product nudeln = createPersonAndAdd(putzmittel,"Nudeln",4);
         createPersonItemsAndAdd(nudeln,3);
 
-        setProductDao(getProductDao());
-        setProductItemDao(getProductItemDao());
-        setCategoryDao(getCategoryDao());
+        setProductDao(createProductDao());
+        setProductItemDao(createProductItemDao());
+        setCategoryDao(createCategoryDao());
 
 
     }
