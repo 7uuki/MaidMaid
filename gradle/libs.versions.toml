@@ -22,7 +22,6 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 room-runtime = {group = "androidx.room", name = "room-runtime", version.ref="room"}
 room-compiler = {group = "androidx.room", name = "room-compiler", version.ref="room"}
-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 
