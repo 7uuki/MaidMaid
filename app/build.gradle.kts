@@ -45,4 +45,5 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("com.google.android.gms:play-services-vision:11.0.2")
 }
