@@ -176,8 +176,14 @@ public class ThirdFragment extends Fragment {
 
     private void saveDataToDatabase(String productName, LocalDate expiryDate, String selectedCategory) {
         Product product = new Product(33, productName, App.getRepo().getCategoryDao().loadByName(selectedCategory));
-        App.getRepo().getProductDao().insertAll(product);
-        App.getRepo().getProductItemDao().insertAll(new ProductItem(33, expiryDate, product));
+        List<Product> products = App.getRepo().getProductDao().getAll();
+        if (products.contains(product)){
+            App.getRepo().getProductItemDao().insertAll(new ProductItem(33, expiryDate, product));
+        }else{
+            App.getRepo().getProductDao().insertAll(product);
+            App.getRepo().getProductItemDao().insertAll(new ProductItem(33, expiryDate, product));
+        }
+
     }
 
     private void setupSaveButton() {
