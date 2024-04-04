@@ -11,17 +11,22 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.fhandshit.maidmaid.data.model.Product;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ViewHolder> {
 
+    private List<Product> dataList;
     private List<Product> productList;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+
+    public List<Product> getDataList() {
+        return dataList;
+    }
 
     ProductRecyclerViewAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
@@ -45,20 +50,34 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return productList.size();
     }
 
-    public void updateList(List<Product> productList) {
-        final ProductDiffCallback diffCallback = new ProductDiffCallback(this.productList, productList);
+    public void updateList(List<Product> productList,boolean isData){
+        Log.d("TAG", "updateList: "+productList+"\n oldList: "+this.productList+" "+isData);
+        final ProductDiffCallback diffCallback = new ProductDiffCallback(this.productList,productList);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-
+        diffResult.dispatchUpdatesTo(this);
         this.productList.clear();
         this.productList.addAll(productList);
-        diffResult.dispatchUpdatesTo(this);
+        if(isData){
+            this.dataList = new ArrayList<>(productList);
+        }
+        Log.d("TAG", "----dataList: "+dataList);
+    }
+
+    public void filterList(String prefix){
+        if(dataList!=null){
+            List<Product> filteredList = dataList.stream()
+                    .filter(obj -> obj.getName().startsWith(prefix))
+                    .collect(Collectors.toList());
+            updateList(filteredList,false);
+        }
+
     }
 
     public void sortRecyclerView(boolean leastRecent) {
-        List<Product> products = new ArrayList<>(productList);
+        List<Product> products = new ArrayList<>(this.productList);
         if (leastRecent) products.sort(Comparator.comparing(Product::getLastAdd).reversed());
         else products.sort(Comparator.comparing(Product::getLastAdd));
-        updateList(products);
+        updateList(products,false);
     }
 
 

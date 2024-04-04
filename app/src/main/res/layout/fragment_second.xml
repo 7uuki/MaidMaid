@@ -9,7 +9,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAnimals"
+        android:id="@+id/productList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:padding="4dp"
         app:iconPadding="8dp"
-        android:text="descending"
+        android:text="newest first"
         android:textSize="18sp"
         app:icon="@drawable/ic_arrow_down"/>
 
