@@ -1,48 +1,40 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Entity
+@Entity(tableName = "product_items")
 public class ProductItem {
     @PrimaryKey(autoGenerate = true)
-    private int productId;
-
-    public ProductItem(int productId, LocalDate expiryDate, Product product) {
-        this.productId = productId;
-        this.expiryDate = expiryDate;
-        this.product = product;
-        this.parentProductId = product.getId();
-    }
-
-    public ProductItem() {
-    }
-
-    @Ignore
+    @ColumnInfo(name = "product_item_id")
+    private int productItemId;
     private LocalDate expiryDate;
-    @Ignore
+    @Embedded
     private Product product;
 
-    private int parentProductId;
-
-    public int getParentProductId() {
-        return parentProductId;
+    public ProductItem(LocalDate expiryDate, Product product) {
+        this.expiryDate = expiryDate;
+        this.product = product;
     }
 
-    public void setParentProductId(int parentProductId) {
-        this.parentProductId = parentProductId;
+    public Product getProduct() {
+        return product;
     }
 
-    public int getProductId() {
-        return productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public int getProductItemId() {
+        return productItemId;
+    }
+
+    public void setProductItemId(int productItemId) {
+        this.productItemId = productItemId;
     }
 
     public LocalDate getExpiryDate() {
@@ -53,11 +45,4 @@ public class ProductItem {
         this.expiryDate = expiryDate;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 }

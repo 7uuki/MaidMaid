@@ -1,110 +1,62 @@
 package de.fhandshit.maidmaid.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.UUID;
 
-@Entity(tableName = "products",
-        foreignKeys = @ForeignKey(
-                entity = Category.class,
-                parentColumns = "name",
-                childColumns = "categoryName",
-                onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "products")
 public class Product {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    @PrimaryKey
+    @ColumnInfo(name = "product_id")
+    @NonNull
+    public UUID productId = UUID.randomUUID();
 
-    public Product(int id,LocalDateTime lastAdd, String productName, Category category) {
-        this.id= id;
+    public Product(String name, String category, LocalDateTime lastAdd) {
+        this.name = name;
+        this.category = category;
         this.lastAdd = lastAdd;
-        this.productName = productName;
-        this.categoryName = category.getName();
-        this.category = category;
     }
 
-    public Product(int i, String productName, Category category) {
-        this.id= id;
-        this.productName = productName;
-        this.categoryName = category.getName();
-        this.category = category;
-    }
+    private String name;
+    private String category;
 
-    public Product() {
-    }
-    @Ignore
+    @ColumnInfo(name = "last_add")
     private LocalDateTime lastAdd;
-
-    private String productName;
-
-    @ColumnInfo(index = true)
-    private String categoryName; // Foreign key
-
-    @Embedded
-    private Category category;
 
     public LocalDateTime getLastAdd() {
         return lastAdd;
     }
 
-    public void setLastAdd(LocalDateTime lastAdd) {
-        this.lastAdd = lastAdd;
+    public void updateLastAdd() {
+        this.lastAdd = LocalDateTime.now();
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public UUID getProductId() {
+        return productId;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", lastAdd=" + lastAdd +
-                ", productName='" + productName + '\'' +
-                ", categoryName='" + categoryName + '\'' +
-                ", category:Name" + category.getName() +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id == product.id && Objects.equals(productName, product.productName) && Objects.equals(categoryName, product.categoryName) && Objects.equals(category, product.category);
     }
 }
 
