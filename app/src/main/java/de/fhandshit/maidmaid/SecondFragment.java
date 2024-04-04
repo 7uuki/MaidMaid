@@ -1,9 +1,6 @@
 package de.fhandshit.maidmaid;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,23 +9,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
-import de.fhandshit.maidmaid.data.database.AppDatabase;
-import de.fhandshit.maidmaid.data.model.Category;
 import de.fhandshit.maidmaid.data.model.Product;
 import de.fhandshit.maidmaid.databinding.FragmentSecondBinding;
-import de.fhandshit.maidmaid.ui.add_product_item.AddProductItemFragment;
 
 public class SecondFragment extends Fragment {
     private FragmentSecondBinding binding;
@@ -96,13 +89,17 @@ public class SecondFragment extends Fragment {
 
     public void productSelectedTransaction(Product product){
         Bundle bundle = new Bundle();
-        bundle.putInt("id", product.getId());
+        bundle.putString("id", product.getProductId().toString());
         bundle.putBoolean("fromProduct", true);
         NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
     }
 
     public void populateRecyclerView(){
-        this.productList = (ArrayList<Product>) App.getRepo().getProductDao().getAll();
+        LiveData<List<Product>> products = ((App)getActivity().getApplication()).getRepo().getProducts();
+        products.observe(getViewLifecycleOwner(), products1 -> {
+            productList = new ArrayList<>();
+            productList.addAll(products1);
+        });
     }
 
     public void sortRecyclerView(boolean leastRecent){
