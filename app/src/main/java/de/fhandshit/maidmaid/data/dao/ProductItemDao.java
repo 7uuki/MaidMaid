@@ -24,6 +24,9 @@ public interface ProductItemDao {
     @Query("SELECT * FROM product_items WHERE product_id = :productId")
     LiveData<List<ProductItem>> getProductItems(UUID productId);
 
+    @Query("SELECT * FROM product_items WHERE category = :category")
+    LiveData<List<ProductItem>> getProductItems(String category);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ProductItem product);
 

@@ -52,6 +52,10 @@ public class Repo {
         return productItemDao.getProductItems(product.getProductId());
     }
 
+    public LiveData<List<ProductItem>> getProductItems(String category){
+        return productItemDao.getProductItems(category);
+    }
+
     public LiveData<Product> getProduct(UUID uuid){
         return productDao.getProduct(uuid);
     }

@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity(tableName = "product_items")
 public class ProductItem {
@@ -15,6 +16,19 @@ public class ProductItem {
     private LocalDate expiryDate;
     @Embedded
     private Product product;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductItem)) return false;
+        ProductItem that = (ProductItem) o;
+        return productItemId == that.productItemId && Objects.equals(expiryDate, that.expiryDate) && Objects.equals(product, that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productItemId, expiryDate, product);
+    }
 
     public ProductItem(LocalDate expiryDate, Product product) {
         this.expiryDate = expiryDate;

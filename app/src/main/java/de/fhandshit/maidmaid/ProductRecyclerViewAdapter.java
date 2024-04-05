@@ -24,10 +24,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    public List<Product> getDataList() {
-        return dataList;
-    }
-
     ProductRecyclerViewAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
         productList = new ArrayList<>();
@@ -148,7 +144,7 @@ class ProductDiffCallback extends DiffUtil.Callback {
         final Product oldProduct = mOldProductList.get(oldItemPosition);
         final Product newProduct = mNewProductList.get(newItemPosition);
 
-        return oldProduct.getName().equals(newProduct.getName());
+        return oldProduct.equals(newProduct);
     }
 
     @Override
