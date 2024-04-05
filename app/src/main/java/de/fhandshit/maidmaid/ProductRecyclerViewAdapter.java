@@ -66,7 +66,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     public void filterList(String prefix){
         if(dataList!=null){
             List<Product> filteredList = dataList.stream()
-                    .filter(obj -> obj.getName().startsWith(prefix))
+                    .filter(obj -> obj.getName().toUpperCase().startsWith(prefix.toUpperCase()))
                     .collect(Collectors.toList());
             updateList(filteredList,false);
         }
