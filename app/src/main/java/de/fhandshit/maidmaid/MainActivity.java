@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
 import de.fhandshit.maidmaid.data.database.AppDatabase;
+import de.fhandshit.maidmaid.data.repository.Repo;
 import de.fhandshit.maidmaid.databinding.ActivityMainBinding;
 
 import android.view.Menu;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private Repo repo;
 
 
     @Override
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        repo = ((App)getApplication()).getRepo();
 
         setSupportActionBar(binding.toolbar);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

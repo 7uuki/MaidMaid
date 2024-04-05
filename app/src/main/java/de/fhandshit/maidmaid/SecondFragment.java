@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -76,11 +77,9 @@ public class SecondFragment extends Fragment {
         // creates ProductListView with Adapter
         createProductListView();
 
-        // ----- Searchbar:
         searchView = binding.searchView;
 
         binding.listView.setVisibility(View.INVISIBLE);
-
 
         // Initialize adapter with the full list
         searchBarAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, stringList);
@@ -155,7 +154,6 @@ public class SecondFragment extends Fragment {
         adapter.setItemClickListener(new ProductRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, Product product) {
-                Log.d("TAG", "product: "+product);
                 productSelectedTransaction(product);
             }
         });
@@ -174,6 +172,5 @@ public class SecondFragment extends Fragment {
         //cloeses SearchBar again
         searchView.onActionViewCollapsed();
     }
-
 
 }

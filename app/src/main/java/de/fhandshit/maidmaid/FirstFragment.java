@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -35,6 +36,7 @@ public class FirstFragment extends Fragment {
     private LiveData<List<String>> categories;
     private Repo repo;
     private ProductItemAdapter adapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,19 +65,21 @@ public class FirstFragment extends Fragment {
                         .navigate(R.id.action_firstFragment_to_qrFragment)
         );
 
-        ChipGroup chipGroup = binding.firstFragmentChipGroup;
-
-
         binding.firstFragmentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.firstFragmentRecycler.addItemDecoration(new CustomDividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
 
         adapter = new ProductItemAdapter();
-
+        adapter.setRun(productItem -> {
+            repo.updateProductItem(productItem);
+        });
         binding.firstFragmentRecycler.setAdapter(adapter);
+        onNewCategorySelected(null);
     }
 
-    private void onNewCategories(List<String> categories){
+    private void onNewCategories(List<String> categories) {
+        if (categories.isEmpty()) onNewCategorySelected(null);
+
         binding.firstFragmentChipGroup.removeAllViews();
         categories.forEach(s -> {
             Chip chip = new Chip(getContext(), null, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
@@ -85,19 +89,24 @@ public class FirstFragment extends Fragment {
             chip.setOnClickListener(new Chip.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Chip clickedChip = (Chip) v;
-                    String selectedChipText = clickedChip.getText().toString();
-                    Log.d("TAg", "onClick: "+selectedChipText);
-                    onNewCategorySelected(selectedChipText);
+
+                    if (binding.firstFragmentChipGroup.getCheckedChipIds().isEmpty()) {
+                        onNewCategorySelected(null);
+                    } else {
+                        Chip clickedChip = (Chip) v;
+                        String selectedChipText = clickedChip.getText().toString();
+                        Log.d("TAg", "onClick: " + selectedChipText);
+                        onNewCategorySelected(selectedChipText);
+                    }
                 }
             });
             binding.firstFragmentChipGroup.addView(chip);
         });
     }
 
-    private void onNewCategorySelected(String category){
+    private void onNewCategorySelected(String category) {
         LiveData<List<ProductItem>> productItems;
-        if(category == null) productItems = repo.getProductItems();
+        if (category == null) productItems = repo.getProductItems();
         else productItems = repo.getProductItems(category);
 
         productItems.observe(getViewLifecycleOwner(), new Observer<List<ProductItem>>() {
@@ -110,7 +119,7 @@ public class FirstFragment extends Fragment {
         });
     }
 
-    private void updateProductItems(List<ProductItem> productItems){
+    private void updateProductItems(List<ProductItem> productItems) {
         adapter.setProductItems(productItems);
     }
 

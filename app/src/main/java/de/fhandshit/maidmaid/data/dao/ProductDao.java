@@ -37,7 +37,7 @@ public interface ProductDao {
     @Update
     void update(Product product);
 
-    @Delete
-    void delete(Product product);
+    @Query("DELETE FROM products")
+    public void nukeTable();
 
 }

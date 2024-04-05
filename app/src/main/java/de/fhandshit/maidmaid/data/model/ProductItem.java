@@ -30,6 +30,15 @@ public class ProductItem {
         return Objects.hash(productItemId, expiryDate, product);
     }
 
+    @Override
+    public String toString() {
+        return "ProductItem{" +
+                "productItemId=" + productItemId +
+                ", expiryDate=" + expiryDate +
+                ", product=" + product +
+                '}';
+    }
+
     public ProductItem(LocalDate expiryDate, Product product) {
         this.expiryDate = expiryDate;
         this.product = product;

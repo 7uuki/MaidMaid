@@ -159,7 +159,7 @@ public class QrFragment extends Fragment {
 
     public void setProductName(String string){
         this.productName = string;
-        Repo repo = ((App) getActivity().getApplication()).getRepo();
+        /*Repo repo = ((App) getActivity().getApplication()).getRepo();
         LiveData<Product> liveData = repo.findByName(productName);
         if(productName.equals("Product name not found")){
             Log.e("Fdfds","Product name not found");
@@ -188,5 +188,7 @@ public class QrFragment extends Fragment {
                 NavHostFragment.findNavController(QrFragment.this).navigate(R.id.action_QrFragment_to_ThirdFragment, bundle);
             }
         }
+        */
+
     }
 }

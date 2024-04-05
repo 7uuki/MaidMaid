@@ -1,10 +1,13 @@
 package de.fhandshit.maidmaid.data.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import de.fhandshit.maidmaid.data.dao.ProductDao;
@@ -53,7 +56,15 @@ public class Repo {
     }
 
     public LiveData<List<ProductItem>> getProductItems(String category){
-        return productItemDao.getProductItems(category);
+        return Transformations.map(productItemDao.getAll(), products ->
+                products.stream().filter(new Predicate<ProductItem>() {
+                    @Override
+                    public boolean test(ProductItem productItem) {
+                        Log.d("TAG", "test: " +productItem.toString());
+                        return productItem.getProduct().getCategory().equals(category);
+                    }
+                }).distinct().collect(Collectors.toList()));
+
     }
 
     public LiveData<Product> getProduct(UUID uuid){
@@ -70,5 +81,13 @@ public class Repo {
 
     public void updateProductItem(ProductItem productItem){
         database.execute(() -> productItemDao.update(productItem));
+    }
+
+    public void deleteProducts(){
+        database.execute(() -> productDao.nukeTable());
+    }
+
+    public void deleteProductItemss(){
+        database.execute(() -> productItemDao.nukeTable());
     }
 }

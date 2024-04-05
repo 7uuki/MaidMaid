@@ -1,15 +1,21 @@
 package de.fhandshit.maidmaid.ui.add_product_item;
 
+import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.fhandshit.maidmaid.data.model.ProductItem;
@@ -17,6 +23,11 @@ import de.fhandshit.maidmaid.databinding.ProductItemBinding;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ProductItemViewHolder> {
     private List<ProductItem> productItems = new ArrayList<>();
+    private MyInterface run;
+
+    public void setRun(MyInterface run) {
+        this.run = run;
+    }
 
     public void setProductItems(List<ProductItem> productItems){
         final ProductItemDiffCallback diffCallback = new ProductItemDiffCallback(this.productItems,productItems);
@@ -53,6 +64,23 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
         public void bind(ProductItem productItem){
             binding.productItemName.setText(productItem.getProduct().getName());
+            if(productItem.getExpiryDate() == null) binding.productItemDate.setVisibility(View.GONE);
+            else{
+                LocalDate date = productItem.getExpiryDate();
+                String text = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                binding.productItemDate.setText(text);
+                binding.productItemDate.setOnClickListener(v -> {
+                    new DatePickerDialog(binding.getRoot().getContext(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            productItem.setExpiryDate(date.withYear(year).withMonth(month).withDayOfMonth(dayOfMonth));
+                            binding.productItemDate.setText(productItem.getExpiryDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                            run.myFun(productItem);
+                        }
+                    }, date.getYear(), date.getMonthValue(), date.getDayOfMonth()).show();
+
+                });
+            }
            // binding.productItemDate.setText();
             /*int color = category.getColor();
             int a = (color >> 24) & 0xff;
@@ -62,6 +90,10 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             binding.productItemCategory.setChipBackgroundColor(ColorStateList.valueOf(Color.argb(a,r,g,b)));*/
 
         }
+    }
+
+    public interface MyInterface{
+        void myFun(ProductItem productItem);
     }
 }
 
