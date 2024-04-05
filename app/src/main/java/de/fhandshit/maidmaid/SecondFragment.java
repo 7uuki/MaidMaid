@@ -81,8 +81,6 @@ public class SecondFragment extends Fragment {
 
         binding.listView.setVisibility(View.INVISIBLE);
 
-        // Sample list of strings
-        stringList = getProductNamesFromDatabase();
 
         // Initialize adapter with the full list
         searchBarAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, stringList);
@@ -157,6 +155,7 @@ public class SecondFragment extends Fragment {
         adapter.setItemClickListener(new ProductRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, Product product) {
+                Log.d("TAG", "product: "+product);
                 productSelectedTransaction(product);
             }
         });
@@ -174,11 +173,6 @@ public class SecondFragment extends Fragment {
         NavHostFragment.findNavController(SecondFragment.this).navigate(R.id.action_SecondFragment_to_ThirdFragment, bundle);
         //cloeses SearchBar again
         searchView.onActionViewCollapsed();
-    }
-
-    public List<String> getProductNamesFromDatabase() {
-        List<String> categoriesString = new ArrayList<>(asList("Apple", "Banana", "Orange", "Pineapple", "Grapes", "Watermelon"));
-        return categoriesString;
     }
 
 

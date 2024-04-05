@@ -99,10 +99,9 @@ public class ThirdFragment extends Fragment {
         });
 
         if (getArguments().getBoolean("fromProduct")) {
-            String name= getArguments().getString("name");
-            Log.d("FSF", "name: " + name);
+            UUID uuid= UUID.fromString(getArguments().getString("id"));
 
-            product = repo.findByName(name);
+            product = repo.getProduct(uuid);
             product.observe(getViewLifecycleOwner(), product -> {
                 if(product != null) {
                     binding.productNameInput.setText(product.getName());
