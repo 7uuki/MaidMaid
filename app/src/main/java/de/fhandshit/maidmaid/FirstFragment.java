@@ -62,17 +62,9 @@ public class FirstFragment extends Fragment {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_firstFragment_to_qrFragment)
         );
-        binding.firstFragmentChipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
-            @Override
-            public void onCheckedChanged(@NonNull ChipGroup chipGroup, @NonNull List<Integer> list) {
-                if(chipGroup.getCheckedChipIds().isEmpty()) {
-                    onNewCategorySelected(null);
-                } else {
-                    Chip chip = chipGroup.findViewById(list.get(0));
-                    onNewCategorySelected(chip.getText().toString());
-                }
-            }
-        });
+
+        ChipGroup chipGroup = binding.firstFragmentChipGroup;
+
 
         binding.firstFragmentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.firstFragmentRecycler.addItemDecoration(new CustomDividerItemDecoration(getContext(),
@@ -89,8 +81,16 @@ public class FirstFragment extends Fragment {
             Chip chip = new Chip(getContext(), null, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
             chip.setText(s);
             chip.setId(View.generateViewId());
-            chip.setCheckable(true);
-            chip.setClickable(true);
+            chip.setCheckable(true); // Ensure chips are checkable
+            chip.setOnClickListener(new Chip.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Chip clickedChip = (Chip) v;
+                    String selectedChipText = clickedChip.getText().toString();
+                    Log.d("TAg", "onClick: "+selectedChipText);
+                    onNewCategorySelected(selectedChipText);
+                }
+            });
             binding.firstFragmentChipGroup.addView(chip);
         });
     }
