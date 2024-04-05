@@ -32,6 +32,10 @@ public class FirstFragment extends Fragment {
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment)
         );
+        binding.fABtnQR.setOnClickListener(v ->
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_firstFragment_to_qrFragment)
+        );
     }
 
     @Override

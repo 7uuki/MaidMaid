@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_firstFragment_to_qrFragment"
+            app:destination="@id/QrFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -39,12 +42,21 @@
             app:destination="@id/SecondFragment"/>
 
         <argument
-            android:name="id"
+            android:name="name"
             app:argType="string" />
 
         <argument
             android:name="fromProduct"
             app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/QrFragment"
+        android:name="de.fhandshit.maidmaid.QrFragment"
+        android:label="QR Fragment"
+        tools:layout="@layout/fragment_qr">
+        <action
+            android:id="@+id/action_QrFragment_to_ThirdFragment"
+            app:destination="@id/ThirdFragment" />
     </fragment>
 
 </navigation>
